@@ -23,9 +23,28 @@ func getAlbums(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, albums)
 }
 
+func getHtml(c *gin.Context){
+	c.HTML(http.StatusOK, "test.html",gin.H{
+		"title":"Hey",
+	})
+}
+
 func main() {
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
+	router.GET("/user/:name", func(c *gin.Context) {
+		name := c.Param("name")
+		c.String(http.StatusOK, "Hello %s", name)
+	})
 
+	router.LoadHTMLGlob("view/*")
+	router.GET("/html",getHtml)
+
+	router.LoadHTMLGlob("templates/**/*")
+	router.GET("/html2", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "users/user.html", gin.H{
+			"title": "Users",
+		})
+	})
 	router.Run("localhost:8080")
 }
