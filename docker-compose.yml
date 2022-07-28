@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  mariadb:
+    image: "mariadb"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234567890"
+  rabbitmq:
+    image: rabbitmq:3.10.6-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
